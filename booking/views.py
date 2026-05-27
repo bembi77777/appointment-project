@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import AppointmentForm
 
-# Create your views here.
+def home(request):
+
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    else:
+        form = AppointmentForm()
+
+    return render(
+        request,
+        'home.html',
+        {'form': form}
+    )
